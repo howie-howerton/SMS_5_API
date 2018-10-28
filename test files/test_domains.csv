@@ -1,0 +1,4 @@
+malwaredomain1.biz,MalwareType,cncHost,MalwareSeverity,High,LastUpdated,2017-05-25
+malwaredomain2.biz,MalwareType,infectedHost,MalwareSeverity,Medium,LastUpdated,2017-05-25
+malwaredomain3.biz,MalwareType,malwareSource,MalwareSeverity,Low,LastUpdated,2017-05-25
+malwaredomain4.biz,MalwareType,cncHost,MalwareSeverity,High,LastUpdated,2017-05-25

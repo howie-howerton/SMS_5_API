@@ -1,0 +1,4 @@
+1.0.0.1,MalwareType,cncHost,MalwareSeverity,High,LastUpdated,2017-05-25,Reputation Entries TTL,2018-10-25 07:15:00-0400
+1.0.0.2,MalwareType,infectedHost,MalwareSeverity,Medium,LastUpdated,2017-05-25
+1.0.0.3,MalwareType,malwareSource,MalwareSeverity,Low,LastUpdated,2017-05-25
+1.0.0.4,MalwareType,cncHost,MalwareSeverity,High,LastUpdated,2017-05-25
