@@ -33,7 +33,7 @@ class Client():
 
     
     def get_all_dvs(self):
-        '''Retrieves a list of all DVs on SMS'''
+        '''Retrieves a list of all Digital Vaccines on SMS'''
         url = "https://{sms_server}/ipsProfileMgmt/dvInfo?request=all".format(sms_server=self.sms_server)
         print url
         headers = {'X-SMS-API-KEY': self.sms_api_key}
@@ -46,7 +46,7 @@ class Client():
         
     
     def upload_csv_ipv4(self, csv_path):
-        '''method to upload IPv4-based rep entries via CSV'''
+        '''method to upload IPv4-based reputation entries via CSV'''
         rep_type = "ipv4"
         params_dict = {'type': rep_type}
         params = urllib.urlencode(params_dict)         
@@ -59,9 +59,8 @@ class Client():
 
     
     def upload_csv_domains(self, csv_path):
-        '''method to upload domain-based rep entries via CSV'''
+        '''method to upload domain-based reputation entries via CSV'''
         rep_type = "dns"
-        #params_dict = {'type': rep_type}
         params_dict = {'type': rep_type}
         params = urllib.urlencode(params_dict)
         url = "https://{sms_server}/repEntries/import?{params}".format(sms_server=self.sms_server, params=params)
@@ -73,7 +72,7 @@ class Client():
 
 
     def upload_csv_urls(self, csv_path):
-        '''method to upload URL-based rep entries via CSV'''
+        '''method to upload URL-based reputation entries via CSV'''
         rep_type = "url"
         params_dict = {'type': rep_type}
         params = urllib.urlencode(params_dict)
