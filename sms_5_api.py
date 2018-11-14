@@ -362,7 +362,7 @@ class Client():
     def convert_vuln_scan(self, runtime, csv_path, vendor, product, version):
         '''Use the convert method to convert a vulnerability scan file that is not in native SMS-Standard format to import to the SMS'''
         #TODO:  Add sanity checking for parameters
-        if not vendor in ['Nexpose', 'Qualys-CSV', 'Nessus']:
+        if not vendor in ['Nexpose', 'Qualys-CSV', 'Nessus', 'Rapid7']:
             return "Error!  Vendor name not support: {vendor}".format(vendor)
         params_dict = {'vendor': vendor, 'product': product, 'version': version, 'runtime': runtime}
         params = urllib.urlencode(params_dict)

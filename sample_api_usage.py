@@ -14,16 +14,13 @@ from sms_5_api import Client
 from datetime import datetime
 import time
 
-sms_api_key = '06B0CEE6-AE09-4829-BC21-0DA6780D7278'
-sms_server = '192.168.19.50'
-ignore_certs=True
-
 
 sms_api_key = '06B0CEE6-AE09-4829-BC21-0DA6780D7278'
 sms_server = '192.168.19.50'
-ignore_certs=True
+
 client = Client(sms_api_key, sms_server, verify_certs=False)
 
+'''
 timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
 
 response = client.get_active_dv()
@@ -49,32 +46,30 @@ response = client.backup_sms(backup_type='sftp', location='sftp://sftp.howielab.
 response = client.get_layer2_fallback_status('8400TX-d0000000')
 response = client.get_layer2_fallback_status(deviceGroupName='test')
 response = client.set_layer2_fallback_status(L2FB='true', deviceGroupName='test')
-
-
-
-
-
-
+'''
 runtime = "2014-01-20T13:01:15.255Z/2014-01-20T13:22:14.333Z"
 #runtime = "2016-09-11T00:00:00.003Z"
-response = client.import_vuln_scan(runtime, csv_path=r'C:\Users\Howie\code\sms_api\test_eVR_CSV_Native.csv', vendor='SMS-Standard', product='Vulnscanner', version='1.0')
-response = client.import_vuln_scan(runtime, csv_path=r'C:\Users\Howie\code\sms_api\eVR examples\ACME_Nexpose.xml', vendor='Rapid7', product='Nexpose', version='0.9')
+#response = client.import_vuln_scan(runtime, csv_path=r'C:\Users\Howie\code\sms_api\test_eVR_CSV_Native.csv', vendor='SMS-Standard', product='Vulnscanner', version='1.0')
+response = client.convert_vuln_scan(runtime, csv_path=r'C:\Users\Howie\code\sms_api\eVR examples\1936.nessus', vendor='Nessus', product='Nessus', version='7.2.2')
+print(response)
 # TROUBLESHOOT:  u'Failed to import file. Reason: File is missing IP Address or CVE IDs.'
-
+'''
 response = client.quarantine_ip('1.1.1.1', policy='Default Response', timeout='60')
 response = client.unquarantine_ip('1.1.1.1', policy='Default Response', timeout='60')
 response = client.get_data_dictionary(table='ACTIONSET', format='xml')
-'''
+
 r = client.get_data_dictionary(table='SIGNATURE', format='csv')
 with open('dv.csv') as dv:
     dv.write(r.text)
-'''
+
 response = client.get_data_dictionary(table='TDEVICE', format='csv')
 
 begin_time = '1483246800'
 end_time = epoch_time = str(int(time.time()))
 r = client.get_data(begin_time, end_time, 'ALERTS', format='xml')
 print r
+'''
+
 
 dt = datetime(2017, 1, 1)
 def get_epoch_from_datetime(dt):

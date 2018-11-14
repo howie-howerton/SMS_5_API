@@ -1,0 +1,11 @@
+*.py[cod]
+
+# Wing IDE project extensions
+*.wpr
+*.wpu
+
+# SQLite databases
+*.sqlite
+
+# Virtual environment
+venv
