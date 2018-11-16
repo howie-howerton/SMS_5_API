@@ -5,10 +5,14 @@ The purpose of this module is to enable easy access to the TippingPoint SMS API 
 
 Author:        Howie Howerton
 Create On:     Oct 26th, 2018
-Last Modified: Oct 26th, 2018
+Last Modified: Nov 16th, 2018
 
 TODO:
-- extend backup_sms method to include other backup types (nfs, scp, sftp)
+- Finish building out other SMS API functions (ie: policy managment)
+- Apply proper docstring formatting.
+- Create input sanitisation functions and corresponding error handling.
+- Review functions to ensure that return data is clear and as consistent as possible (and documented in the docstrings)
+- See other inline TODOs...
 
 '''
 import requests, urllib, re
@@ -97,7 +101,7 @@ class Client():
     
     def delete_ip(self, ip):
         '''method to delete an IP address entry from reputation'''
-        #TODO: Need to insert logic to determine if an entry is an ip address or a domain.
+        #TODO: Need to insert logic to ensure input data is an ip address.
         params_dict = {'ip': ip, 'criteria': "entry"}
         params = urllib.urlencode(params_dict)
         url = "https://{sms_server}/repEntries/delete?{params}".format(sms_server=self.sms_server, params=params)
@@ -331,7 +335,7 @@ class Client():
     
     def set_layer2_fallback_status(self, L2FB, deviceName='', deviceGroupName=''):
         '''Sets the Layer2 fallback status for a device or device group'''
-        #TODO:  Need to test on 'real' devices.  Ghost appliances do not seem to accept the commands.
+        #TODO:  Still need to test this.
         if (deviceName and L2FB):
             params_dict = {'deviceName': deviceName, 'L2FB': L2FB}
         elif ((not deviceGroupName == '') and L2FB):
@@ -367,7 +371,7 @@ class Client():
         params_dict = {'vendor': vendor, 'product': product, 'version': version, 'runtime': runtime}
         params = urllib.urlencode(params_dict)
         url = 'https://{sms_server}/vulnscanner/convert?{params}'.format(sms_server=self.sms_server, params=params)
-        print url
+        #print url
         headers = {'X-SMS-API-KEY': self.sms_api_key}
         files = {"file": open(csv_path, 'rb')}
         response = requests.post(url, headers=headers, files=files, verify=self.verify_certs)

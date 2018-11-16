@@ -12,13 +12,43 @@ Ideas:
 
 from sms_5_api import Client
 from datetime import datetime
-import time
+import time, os, shutil
 
-
+'''
+SMS API key that's used to authenticate.  You can retrieve this value from SMS by going to:
+Admin > Authentication and Authorization > Users.  
+Double click on the desired User account and copy the value of the API key.
+'''
 sms_api_key = '06B0CEE6-AE09-4829-BC21-0DA6780D7278'
+# SMS's IP can be found in Admin > Server Properties > Network (tab)
 sms_server = '192.168.19.50'
+# Whether or not to enforce validation of certificates.  Set to False if using the default self-signed certificate on SMS.
+verify_certs=False
 
-client = Client(sms_api_key, sms_server, verify_certs=False)
+# directory_to_watch is the directory into which we expect new .nessus scan files to be dropped
+directory_to_watch = r'C:\Users\Howie\code\sms_api\eVR examples\inbox'
+# The script will place .nessus scan files into the directory_for_processed_scans directory once they've been successfully processed.
+directory_for_processed_scans = r'C:\Users\Howie\code\sms_api\eVR examples\processed'
+# Instantiate an instance of the sms_5_api Client 
+client = Client(sms_api_key, sms_server, verify_certs=verify_certs)
+
+def main():
+    '''main routine'''
+    for f in os.listdir(directory_to_watch):
+        if str(f).lower().endswith(('.nessus')):
+            full_path = os.path.join(directory_to_watch, f)
+            print(full_path)
+            runtime = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'  #"2014-01-20T13:01:15.255Z/2014-01-20T13:22:14.333Z"
+            try:
+                response = client.convert_vuln_scan(runtime, csv_path=full_path, vendor='Nessus', product='Nessus', version='7.2.2')
+                print(response)
+                shutil.move(full_path, os.path.join(directory_for_processed_scans, f))
+                print("{f} has been successfully uploaded to SMS and has been moved to {dest_dir}".format(f=f, dest_dir=directory_for_processed_scans))
+            except Exception, e:
+                print("Error processing Nessus Scan.  The raw error message is:\n\n {e}".format(e=e))
+    
+if __name__ == '__main__':
+    main()
 
 '''
 timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
@@ -47,11 +77,11 @@ response = client.get_layer2_fallback_status('8400TX-d0000000')
 response = client.get_layer2_fallback_status(deviceGroupName='test')
 response = client.set_layer2_fallback_status(L2FB='true', deviceGroupName='test')
 '''
-runtime = "2014-01-20T13:01:15.255Z/2014-01-20T13:22:14.333Z"
+'''runtime = "2014-01-20T13:01:15.255Z/2014-01-20T13:22:14.333Z"
 #runtime = "2016-09-11T00:00:00.003Z"
 #response = client.import_vuln_scan(runtime, csv_path=r'C:\Users\Howie\code\sms_api\test_eVR_CSV_Native.csv', vendor='SMS-Standard', product='Vulnscanner', version='1.0')
 response = client.convert_vuln_scan(runtime, csv_path=r'C:\Users\Howie\code\sms_api\eVR examples\1936.nessus', vendor='Nessus', product='Nessus', version='7.2.2')
-print(response)
+print(response)'''
 # TROUBLESHOOT:  u'Failed to import file. Reason: File is missing IP Address or CVE IDs.'
 '''
 response = client.quarantine_ip('1.1.1.1', policy='Default Response', timeout='60')
